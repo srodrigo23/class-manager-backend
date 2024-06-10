@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class ItemBase(BaseModel):
@@ -26,10 +27,24 @@ class UserCreate(UserBase):
   password: str
 
 
-class User(UserBase):
-  id: int
-  is_active: bool
-  items: list[Item] = []
+# class User(UserBase):
+#   id: int
+#   is_active: bool
+#   items: list[Item] = []
 
-  class Config:
-    orm_mode = True
+#   class Config:
+#     orm_mode = True
+
+
+class User(BaseModel):
+  first_name : str
+  last_name : str
+  email:str
+  register_date: datetime
+  enabled: bool
+
+class Student(User):
+  codsis: int
+
+class Admin(User):
+  ci: str

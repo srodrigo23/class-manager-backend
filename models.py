@@ -61,8 +61,8 @@ class Subject(Base):
 class DetailCourseSubjectStudent(Base):
   __tablename__ = "details_course_subject_student"
   id = Column(Integer, primary_key=True, autoincrement=True)
-  detail_course_subject_id = Column(Integer, ForeignKey("details_course_subject.id"))#relationship("DetailCourseSubject")
-  detail_student_career_id = Column(Integer, ForeignKey("details_student_career.id"))#relationship("DetailStudentCareer")
+  detail_course_subject_id = Column(Integer, ForeignKey("details_course_subject.id"))
+  detail_student_career_id = Column(Integer, ForeignKey("details_student_career.id"))
   detail_grade_class =relationship("Grade")
 
 class Grade(Base):
@@ -71,4 +71,4 @@ class Grade(Base):
   pp = Column(Integer)
   sp = Column(Integer)
   ef = Column(Integer)
-  detail_class_id = Column(Integer, ForeignKey("details_course_subject_student.id")) #relationship("User")
+  detail_class_id = Column(Integer, ForeignKey("details_course_subject_student.id"))

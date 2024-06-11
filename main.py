@@ -18,14 +18,15 @@ def get_db():
         db.close()
 
 
-@app.post("/students/", response_model=schemas.Student)
+@app.post("/students/", response_model=schemas.User)
 def create_student(student: schemas.Student, db: Session = Depends(get_db)):
     
-    db_student = crud.get_student_by_email_or_by_codsis(db=db, email=student.email, codsis=student.codsis)
-
+    db_student = crud.get_user_by_email_by_codsis(db=db, email=student.email, codsis=student.codsis)
+    print(db_student)
     if db_student:
         raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+    return crud.create_student(db=db, student=student)
+    # return crud.create_user(db=db, user=user)
 
 
 @app.get("/users/", response_model=list[schemas.User])

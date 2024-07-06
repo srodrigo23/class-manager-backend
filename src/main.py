@@ -1,8 +1,9 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from .database import crud, models
+from .database import schemas
+from .database.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -16,6 +17,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+@app.get("/")
+def root_path():
+    from .api.google.classroom import get_students_list
+    return get_students_list(class_code='616805243112')
 
 
 @app.post("/students/", response_model=schemas.User)
@@ -42,6 +48,10 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
+@app.get("/students/{class_code}")
+def get_students_list_from_classcode(class_code:str):
+    from .api.google.classroom import get_students_list
+    return get_students_list(class_code=class_code)
 
 @app.post("/users/{user_id}/items/", response_model=schemas.Item)
 def create_item_for_user(
